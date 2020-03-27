@@ -1,0 +1,27 @@
+﻿生成启动时间为 2020/3/26 23:24:39。
+     1>项目“D:\Ccode\PCRemote\PCRemote\PCRemote.vcxproj”在节点 2 上(Rebuild 个目标)。
+     1>ClCompile:
+         D:\VS2013\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D _WINDOWS /D NDEBUG /D _MBCS /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Release\PCRemote.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+     1>D:\VS2013\VC\atlmfc\include\afx.h(38): warning C4996: 'MBCS_Support_Deprecated_In_MFC': MBCS support in MFC is deprecated and may be removed in a future version of MFC.
+                 D:\VS2013\VC\atlmfc\include\afx.h(33) : 参见“MBCS_Support_Deprecated_In_MFC”的声明
+         D:\VS2013\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D _WINDOWS /D NDEBUG /D _MBCS /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Release\PCRemote.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt PCRemote.cpp PCRemoteDlg.cpp
+         PCRemote.cpp
+         PCRemoteDlg.cpp
+     1>PCRemoteDlg.cpp(250): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+     1>PCRemoteDlg.cpp(269): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D NDEBUG /l"0x0804" /IRelease\ /nologo /fo"Release\PCRemote.res" PCRemote.rc 
+       Link:
+         D:\VS2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Ccode\PCRemote\Release\PCRemote.exe" /INCREMENTAL:NO /NOLOGO /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:D:\VS2013\VC\Include\Manifest\dpiaware.manifest /DEBUG /PDB:"D:\Ccode\PCRemote\Release\PCRemote.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Ccode\PCRemote\Release\PCRemote.lib" /MACHINE:X86 /SAFESEH Release\PCRemote.res
+         Release\PCRemote.obj
+         Release\PCRemoteDlg.obj
+         Release\stdafx.obj
+         正在生成代码
+         已完成代码的生成
+         PCRemote.vcxproj -> D:\Ccode\PCRemote\Release\PCRemote.exe
+     1>已完成生成项目“D:\Ccode\PCRemote\PCRemote\PCRemote.vcxproj”(Rebuild 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:05.65
