@@ -33,6 +33,9 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="TrueColorToolBar.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PCRemote.cpp">
@@ -44,6 +47,9 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="TrueColorToolBar.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PCRemote.rc">
@@ -52,6 +58,12 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\PCRemote.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\toolbar1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\ToolBar_Main.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

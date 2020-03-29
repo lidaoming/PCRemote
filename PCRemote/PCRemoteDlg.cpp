@@ -172,13 +172,14 @@ BOOL CPCRemoteDlg::OnInitDialog()
 	InitList();
 	//显示状态栏
 	CreatStatusBar();
+	CreateToolBar();
 	//显示软件初始化成功
 	ShowMessage(true, "软件初始化成功");
 	CRect rect;
 	GetWindowRect(&rect);
 	rect.bottom += 50;
 	MoveWindow(rect);
-
+	
 	//测试用
 	Test();
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -244,7 +245,7 @@ void CPCRemoteDlg::OnSize(UINT nType, int cx, int cy)
 	{
 		CRect rc;
 		rc.left = 1;       //列表的左坐标
-		rc.top = 80;       //列表的上坐标
+		rc.top = 90;       //列表的上坐标
 		rc.right = cx - 1;  //列表的右坐标
 		rc.bottom = cy - 170;  //列表的下坐标
 		m_CList_Online.MoveWindow(rc);
@@ -287,6 +288,15 @@ void CPCRemoteDlg::OnSize(UINT nType, int cx, int cy)
 		rc.bottom = cy;
 		m_wndStatusBar.MoveWindow(rc);
 		m_wndStatusBar.SetPaneInfo(0, m_wndStatusBar.GetItemID(0), SBPS_POPOUT, cx - 10);
+	}
+
+	if (m_ToolBar.m_hWnd != NULL)              //工具条
+	{
+		CRect rc;
+		rc.top = rc.left = 0;
+		rc.right = cx;
+		rc.bottom = 80;
+		m_ToolBar.MoveWindow(rc);     //设置工具条大小位置
 	}
 
 
@@ -544,4 +554,47 @@ void CPCRemoteDlg::OnLvnItemchangedMessage(NMHDR *pNMHDR, LRESULT *pResult)
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 	// TODO:  在此添加控件通知处理程序代码
 	*pResult = 0;
+}
+
+
+// 添加工具栏
+void CPCRemoteDlg::CreateToolBar()
+{
+
+	if (!m_ToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
+		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
+		!m_ToolBar.LoadToolBar(IDR_TOOLBAR_MAIN))
+	{
+		TRACE0("Failed to create toolbar\n");
+		return;      // fail to create
+	}
+	m_ToolBar.ModifyStyle(0, TBSTYLE_FLAT);    //Fix for WinXP
+	m_ToolBar.LoadTrueColorToolBar
+		(
+		48,    //加载真彩工具条
+		IDB_BITMAP_MAIN,
+		IDB_BITMAP_MAIN,
+		IDB_BITMAP_MAIN
+		);
+	RECT rt, rtMain;
+	GetWindowRect(&rtMain);
+	rt.left = 0;
+	rt.top = 0;
+	rt.bottom = 80;
+	rt.right = rtMain.right - rtMain.left + 10;
+	m_ToolBar.MoveWindow(&rt, TRUE);
+
+	m_ToolBar.SetButtonText(0, "终端管理");
+	m_ToolBar.SetButtonText(1, "进程管理");
+	m_ToolBar.SetButtonText(2, "窗口管理");
+	m_ToolBar.SetButtonText(3, "桌面管理");
+	m_ToolBar.SetButtonText(4, "文件管理");
+	m_ToolBar.SetButtonText(5, "语音管理");
+	m_ToolBar.SetButtonText(6, "视频管理");
+	m_ToolBar.SetButtonText(7, "服务管理");
+	m_ToolBar.SetButtonText(8, "注册表管理");
+	m_ToolBar.SetButtonText(9, "参数设置");
+	m_ToolBar.SetButtonText(10, "生成服务端");
+	m_ToolBar.SetButtonText(11, "帮助");
+	RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0);
 }
