@@ -24,6 +24,8 @@ public:
 protected:
 	HICON m_hIcon;
 	CStatusBar  m_wndStatusBar; //程序状态条
+	//当前有几个客户端上线
+	int iCount;
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);

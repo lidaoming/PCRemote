@@ -95,6 +95,8 @@ CPCRemoteDlg::CPCRemoteDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CPCRemoteDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	//类初始化 变量初始化的地方
+	iCount = 0;
 }
 
 void CPCRemoteDlg::DoDataExchange(CDataExchange* pDX)
@@ -170,10 +172,11 @@ BOOL CPCRemoteDlg::OnInitDialog()
 	InitList();
 	//显示状态栏
 	CreatStatusBar();
-	ShowMessage(true, "软件初始化成功...");
+	//显示软件初始化成功
+	ShowMessage(true, "软件初始化成功");
 	CRect rect;
 	GetWindowRect(&rect);
-	rect.bottom += 20;
+	rect.bottom += 50;
 	MoveWindow(rect);
 
 	//测试用
@@ -243,7 +246,7 @@ void CPCRemoteDlg::OnSize(UINT nType, int cx, int cy)
 		rc.left = 1;       //列表的左坐标
 		rc.top = 80;       //列表的上坐标
 		rc.right = cx - 1;  //列表的右坐标
-		rc.bottom = cy - 160;  //列表的下坐标
+		rc.bottom = cy - 170;  //列表的下坐标
 		m_CList_Online.MoveWindow(rc);
 
 		for (int i = 0; i<g_Column_Online_Count; i++)
@@ -260,9 +263,9 @@ void CPCRemoteDlg::OnSize(UINT nType, int cx, int cy)
 	{
 		CRect rc;
 		rc.left = 1;        //列表的左坐标
-		rc.top = cy - 156;    //列表的上坐标
+		rc.top = cy - 170;    //列表的上坐标
 		rc.right = cx - 1;    //列表的右坐标
-		rc.bottom = cy - 15;  //列表的下坐标
+		rc.bottom = cy - 20;  //列表的下坐标
 		m_CList_Message.MoveWindow(rc);
 
 		for (int i = 0; i<g_Column_Count_Message; i++)
@@ -275,17 +278,19 @@ void CPCRemoteDlg::OnSize(UINT nType, int cx, int cy)
 			m_CList_Message.SetColumnWidth(i, (lenth));        //设置当前的宽度
 		}
 	}
-
 	//状态栏
 	if (m_wndStatusBar.m_hWnd != NULL){    //当对话框大小改变时 状态条大小也随之改变
 		CRect rc;
-		rc.top = cy - 20;
-		rc.left = 0;
+		rc.top = cy -20;
+		rc.left = 1;
 		rc.right = cx;
 		rc.bottom = cy;
 		m_wndStatusBar.MoveWindow(rc);
 		m_wndStatusBar.SetPaneInfo(0, m_wndStatusBar.GetItemID(0), SBPS_POPOUT, cx - 10);
 	}
+
+
+
 }
 
 
@@ -340,6 +345,24 @@ void CPCRemoteDlg::ShowMessage(bool bIsOK, CString strMsg)
 	m_CList_Message.InsertItem(0, strIsOK);
 	m_CList_Message.SetItemText(0, 1, strTime);
 	m_CList_Message.SetItemText(0, 2, strMsg);
+
+	//状态栏日志更新呢
+	CString strStatusMsg;
+	if (strMsg.Find("上线") > 0)         //处理上线还是下线消息
+	{
+		iCount++;
+	}
+	else if (strMsg.Find("下线") > 0)
+	{
+		iCount--;
+	}
+	else if (strMsg.Find("断开") > 0)
+	{
+		iCount--;
+	}
+	iCount = (iCount <= 0 ? 0 : iCount);         //防止iCount 有-1的情况
+	strStatusMsg.Format("有%d个主机在线", iCount);
+	m_wndStatusBar.SetPaneText(0, strStatusMsg);   //在状态条上显示文字
 }
 
 
@@ -350,6 +373,9 @@ void CPCRemoteDlg::Test()
 	AddList("192.168.0.1", "本机局域网", "Lang", "Windows7", "2.2GHZ", "有", "123232");
 	AddList("192.168.0.1", "本机局域网", "Lang", "Windows7", "2.2GHZ", "有", "123232");
 	ShowMessage(true, "软件初始化成功...");
+	ShowMessage(true, "192.168.0.1 主机上线");
+	ShowMessage(true, "192.168.0.1 主机上线");
+	ShowMessage(true, "192.168.0.1 主机上线");
 
 }
 
