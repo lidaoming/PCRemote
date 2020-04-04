@@ -241,63 +241,85 @@ void CPCRemoteDlg::OnSize(UINT nType, int cx, int cy)
 	CDialogEx::OnSize(nType, cx, cy);
 	double dcx = cx;     //对话框的当前总宽度
 	// TODO:  在此处添加消息处理程序代码
-	if (m_CList_Online.m_hWnd != NULL)
+	//如果是最小化就不处理
+	if (nType == SIZE_MINIMIZED)
 	{
-		CRect rc;
-		rc.left = 1;       //列表的左坐标
-		rc.top = 90;       //列表的上坐标
-		rc.right = cx - 1;  //列表的右坐标
-		rc.bottom = cy - 170;  //列表的下坐标
-		m_CList_Online.MoveWindow(rc);
-
-		for (int i = 0; i<g_Column_Online_Count; i++)
-		{                   
-			//遍历每一个列
-			double dd = g_Column_online_Data[i].nWidth;     //得到当前列的宽度
-			dd /= g_Column_Online_Width;                    //看一看当前宽度占总长度的几分之几
-			dd *= dcx;                                       //用原来的长度乘以所占的几分之几得到当前的宽度
-			int lenth = dd;                                   //转换为int 类型
-			m_CList_Online.SetColumnWidth(i, (lenth));        //设置当前的宽度
-		}
+		return;
 	}
-	if (m_CList_Message.m_hWnd != NULL)
+	
+	TRY 
 	{
-		CRect rc;
-		rc.left = 1;        //列表的左坐标
-		rc.top = cy - 170;    //列表的上坐标
-		rc.right = cx - 1;    //列表的右坐标
-		rc.bottom = cy - 20;  //列表的下坐标
-		m_CList_Message.MoveWindow(rc);
-
-		for (int i = 0; i<g_Column_Count_Message; i++)
+		if (m_CList_Online.m_hWnd != NULL)
 		{
-			//遍历每一个列
-			double dd = g_Column_Data_Message[i].nWidth;     //得到当前列的宽度
-			dd /= g_Column_Message_Width;                    //看一看当前宽度占总长度的几分之几
-			dd *= dcx;                                       //用原来的长度乘以所占的几分之几得到当前的宽度
-			int lenth = dd;                                   //转换为int 类型
-			m_CList_Message.SetColumnWidth(i, (lenth));        //设置当前的宽度
+			CRect rc;
+			rc.left = 1;       //列表的左坐标
+			rc.top = 90;       //列表的上坐标
+			rc.right = cx - 1;  //列表的右坐标
+			rc.bottom = cy - 170;  //列表的下坐标
+			m_CList_Online.MoveWindow(rc);
+
+			for (int i = 0; i < g_Column_Online_Count; i++)
+			{
+				//遍历每一个列
+				double dd = g_Column_online_Data[i].nWidth;     //得到当前列的宽度
+				dd /= g_Column_Online_Width;                    //看一看当前宽度占总长度的几分之几
+				dd *= dcx;                                       //用原来的长度乘以所占的几分之几得到当前的宽度
+				int lenth = dd;                                   //转换为int 类型
+				m_CList_Online.SetColumnWidth(i, (lenth));        //设置当前的宽度
+			}
+		}
+		if (m_CList_Message.m_hWnd != NULL)
+		{
+			CRect rc;
+			rc.left = 1;        //列表的左坐标
+			rc.top = cy - 170;    //列表的上坐标
+			rc.right = cx - 1;    //列表的右坐标
+			rc.bottom = cy - 20;  //列表的下坐标
+			m_CList_Message.MoveWindow(rc);
+
+			for (int i = 0; i < g_Column_Count_Message; i++)
+			{
+				//遍历每一个列
+				double dd = g_Column_Data_Message[i].nWidth;     //得到当前列的宽度
+				dd /= g_Column_Message_Width;                    //看一看当前宽度占总长度的几分之几
+				dd *= dcx;                                       //用原来的长度乘以所占的几分之几得到当前的宽度
+				int lenth = dd;                                   //转换为int 类型
+				m_CList_Message.SetColumnWidth(i, (lenth));        //设置当前的宽度
+			}
+		}
+		//状态栏
+		if (m_wndStatusBar.m_hWnd != NULL){    //当对话框大小改变时 状态条大小也随之改变
+			CRect rc;
+			rc.top = cy - 20;
+			rc.left = 1;
+			rc.right = cx;
+			rc.bottom = cy;
+			m_wndStatusBar.MoveWindow(rc);
+			m_wndStatusBar.SetPaneInfo(0, m_wndStatusBar.GetItemID(0), SBPS_POPOUT, cx - 10);
+		}
+
+		if (m_ToolBar.m_hWnd != NULL)              //工具条
+		{
+			CRect rc;
+			rc.top = rc.left = 0;
+			//rc.right = 2500;
+			rc.right = cx;
+			//CString ccx;
+			//ccx.Format("%d", cx);
+			//AllocConsole();
+			//_cprintf("%s", ccx);
+			//FreeConsole();
+			rc.bottom = 80;
+			m_ToolBar.MoveWindow(rc);     //设置工具条大小位置
 		}
 	}
-	//状态栏
-	if (m_wndStatusBar.m_hWnd != NULL){    //当对话框大小改变时 状态条大小也随之改变
-		CRect rc;
-		rc.top = cy -20;
-		rc.left = 1;
-		rc.right = cx;
-		rc.bottom = cy;
-		m_wndStatusBar.MoveWindow(rc);
-		m_wndStatusBar.SetPaneInfo(0, m_wndStatusBar.GetItemID(0), SBPS_POPOUT, cx - 10);
-	}
-
-	if (m_ToolBar.m_hWnd != NULL)              //工具条
+	CATCH (CMemoryException, e)
 	{
-		CRect rc;
-		rc.top = rc.left = 0;
-		rc.right = cx;
-		rc.bottom = 80;
-		m_ToolBar.MoveWindow(rc);     //设置工具条大小位置
+		;
 	}
+	END_CATCH
+
+
 
 
 
@@ -583,7 +605,7 @@ void CPCRemoteDlg::CreateToolBar()
 	rt.bottom = 80;
 	rt.right = rtMain.right - rtMain.left + 10;
 	m_ToolBar.MoveWindow(&rt, TRUE);
-
+	/*
 	m_ToolBar.SetButtonText(0, "终端管理");
 	m_ToolBar.SetButtonText(1, "进程管理");
 	m_ToolBar.SetButtonText(2, "窗口管理");
@@ -596,5 +618,19 @@ void CPCRemoteDlg::CreateToolBar()
 	m_ToolBar.SetButtonText(9, "参数设置");
 	m_ToolBar.SetButtonText(10, "生成服务端");
 	m_ToolBar.SetButtonText(11, "帮助");
+	*/
+	m_ToolBar.SetButtonText(0, "终端管理");
+	m_ToolBar.SetButtonText(1, "进程管理");
+	m_ToolBar.SetButtonText(2, "窗口管理");
+	m_ToolBar.SetButtonText(3, "桌面管理");
+	m_ToolBar.SetButtonText(4, "文件管理");
+	m_ToolBar.SetButtonText(5, "语音管理");
+	m_ToolBar.SetButtonText(6, "视频管理");
+	m_ToolBar.SetButtonText(7, "服务管理");
+	m_ToolBar.SetButtonText(8, "注册表管理");
+	m_ToolBar.SetButtonText(10, "参数设置");
+	m_ToolBar.SetButtonText(11, "生成服务端");
+	m_ToolBar.SetButtonText(12, "帮助");
+	
 	RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0);
 }

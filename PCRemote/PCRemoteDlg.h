@@ -5,7 +5,7 @@
 #pragma once
 #include "afxcmn.h"
 #include "TrueColorToolBar.h"
-
+#include <conio.h>
 
 // CPCRemoteDlg ¶Ô»°¿ò
 class CPCRemoteDlg : public CDialogEx
