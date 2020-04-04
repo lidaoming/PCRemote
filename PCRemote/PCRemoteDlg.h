@@ -29,6 +29,8 @@ protected:
 	int iCount;
 	//工具栏
 	CTrueColorToolBar m_ToolBar;
+	//系统托盘
+	NOTIFYICONDATA nid;
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
@@ -62,9 +64,15 @@ public:
 	afx_msg void OnMainAbout();
 	afx_msg void OnMainBuild();
 	afx_msg void OnMainSet();
+	//以下是我自己的消息处理回调函数
+	//处理托盘消息回调函数
+	afx_msg void OnIconNotify(WPARAM wParam, LPARAM lParam);
+
 	// 创建状态栏
 	void CreatStatusBar();
 	afx_msg void OnLvnItemchangedMessage(NMHDR *pNMHDR, LRESULT *pResult);
 	// 添加工具栏
 	void CreateToolBar();
+	afx_msg void OnNotifyClose();
+	afx_msg void OnNotifyShow();
 };

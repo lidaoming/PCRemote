@@ -1,4 +1,4 @@
-﻿生成启动时间为 2020/4/4 17:32:50。
+﻿生成启动时间为 2020/4/4 19:44:27。
      1>项目“E:\C++\PCRemote\PCRemote\PCRemote\PCRemote.vcxproj”在节点 2 上(Rebuild 个目标)。
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\PCRemote.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
@@ -8,8 +8,8 @@
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\PCRemote.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt PCRemote.cpp PCRemoteDlg.cpp TrueColorToolBar.cpp
          TrueColorToolBar.cpp
          PCRemoteDlg.cpp
-     1>e:\c++\pcremote\pcremote\pcremote\pcremotedlg.cpp(267): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-     1>e:\c++\pcremote\pcremote\pcremote\pcremotedlg.cpp(286): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+     1>e:\c++\pcremote\pcremote\pcremote\pcremotedlg.cpp(284): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+     1>e:\c++\pcremote\pcremote\pcremote\pcremotedlg.cpp(303): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
          PCRemote.cpp
          正在生成代码...
        ResourceCompile:
@@ -25,4 +25,4 @@
 
 生成成功。
 
-已用时间 00:00:03.51
+已用时间 00:00:03.89

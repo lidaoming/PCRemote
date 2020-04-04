@@ -127,6 +127,12 @@ BEGIN_MESSAGE_MAP(CPCRemoteDlg, CDialogEx)
 	ON_COMMAND(IDM_MAIN_BUILD, &CPCRemoteDlg::OnMainBuild)
 	ON_COMMAND(IDM_MAIN_SET, &CPCRemoteDlg::OnMainSet)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_MESSAGE, &CPCRemoteDlg::OnLvnItemchangedMessage)
+
+	//以下是我自己的消息映射函数  
+	//用于处理托盘的消息映射
+	ON_MESSAGE(UM_ICONNOTIFY, (LRESULT(__thiscall CWnd::*)(WPARAM, LPARAM))OnIconNotify)
+	ON_COMMAND(IDM_NOTIFY_CLOSE, &CPCRemoteDlg::OnNotifyClose)
+	ON_COMMAND(IDM_NOTIFY_SHOW, &CPCRemoteDlg::OnNotifyShow)
 END_MESSAGE_MAP()
 
 
@@ -180,6 +186,17 @@ BOOL CPCRemoteDlg::OnInitDialog()
 	rect.bottom += 50;
 	MoveWindow(rect);
 	
+	//显示系统托盘
+	nid.cbSize = sizeof(nid);     //大小赋值
+	nid.hWnd = m_hWnd;           //父窗口
+	nid.uID = IDR_MAINFRAME;     //icon  ID
+	nid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;   //托盘所拥有的状态
+	nid.uCallbackMessage = UM_ICONNOTIFY;            //回调消息
+	nid.hIcon = m_hIcon;                            //icon 变量
+	CString str = "PCRemote远程协助软件";       //气泡提示
+	lstrcpyn(nid.szTip, (LPCSTR)str, sizeof(nid.szTip) / sizeof(nid.szTip[0]));
+	Shell_NotifyIcon(NIM_ADD, &nid);   //显示托盘
+
 	//测试用
 	Test();
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -412,6 +429,32 @@ void CPCRemoteDlg::Test()
 }
 
 
+//托盘回调函数
+void CPCRemoteDlg::OnIconNotify(WPARAM wParam, LPARAM lParam)
+{
+	switch ((UINT)lParam)
+	{
+	case WM_LBUTTONDOWN: // click or dbclick left button on icon
+	case WM_LBUTTONDBLCLK: // should show desktop
+		if (!IsWindowVisible())
+			ShowWindow(SW_SHOW);
+		else
+			ShowWindow(SW_HIDE);
+		break;
+	case WM_RBUTTONDOWN: // click right button, show menu
+		CMenu menu;
+		menu.LoadMenu(IDR_MENU_NOTIFY);
+		CPoint point;
+		GetCursorPos(&point);
+		SetForegroundWindow();
+		menu.GetSubMenu(0)->TrackPopupMenu(
+			TPM_LEFTBUTTON | TPM_RIGHTBUTTON,
+			point.x, point.y, this, NULL);
+		PostMessage(WM_USER, 0, 0);
+		break;
+	}
+}
+
 void CPCRemoteDlg::OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
@@ -523,6 +566,9 @@ void CPCRemoteDlg::OnOnlineDelete()
 void CPCRemoteDlg::OnClose()
 {
 	// TODO:  在此添加命令处理程序代码
+	//销毁托盘
+
+	Shell_NotifyIcon(NIM_DELETE, &nid); //销毁图标
 	PostMessage(WM_CLOSE, 0, 0);
 }
 
@@ -633,4 +679,18 @@ void CPCRemoteDlg::CreateToolBar()
 	m_ToolBar.SetButtonText(12, "帮助");
 	
 	RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0);
+}
+
+
+void CPCRemoteDlg::OnNotifyClose()
+{
+	// TODO:  在此添加命令处理程序代码
+	PostMessage(WM_CLOSE);
+}
+
+
+void CPCRemoteDlg::OnNotifyShow()
+{
+	// TODO:  在此添加命令处理程序代码
+	ShowWindow(SW_SHOW);
 }

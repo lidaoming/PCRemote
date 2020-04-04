@@ -48,6 +48,14 @@ enum
 };
 
 
+//自定义消息
+//为了防止用户定义的消息ID与系统的消息ID冲突，
+//MS（Microsoft）定义了一个宏WM_USER，小于WM_USER的ID被系统使用，大于WM_USER的ID被用户使用
+enum
+{
+	UM_ICONNOTIFY = WM_USER + 0x100,
+};
+
 
 
 
