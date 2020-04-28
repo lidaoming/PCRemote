@@ -6,6 +6,7 @@
 #include "afxcmn.h"
 #include "TrueColorToolBar.h"
 #include <conio.h>
+#include "include/IOCPServer.h"
 
 // CPCRemoteDlg 对话框
 class CPCRemoteDlg : public CDialogEx
@@ -37,6 +38,10 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+	//IOCP回调函数
+	static void CALLBACK NotifyProc(LPVOID lpParam, ClientContext* pContext, UINT nCode);
+	//启动IOCP监听端口
+	void Activate(UINT nPort, UINT nMaxConnections);
 public:
 	CListCtrl m_CList_Online;
 	CListCtrl m_CList_Message;
