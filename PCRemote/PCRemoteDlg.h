@@ -80,4 +80,6 @@ public:
 	void CreateToolBar();
 	afx_msg void OnNotifyClose();
 	afx_msg void OnNotifyShow();
+	// ¿ªÆô¼àÌý¶Ë¿Ú
+	void ListenPort();
 };

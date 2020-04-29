@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "PCRemote.h"
 #include "PCRemoteDlg.h"
+#include "SettingDlg.h"	
 #include "afxdialogex.h"
 
 #ifdef _DEBUG
@@ -75,6 +76,8 @@ public:
 // 实现
 protected:
 	DECLARE_MESSAGE_MAP()
+
+	
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -236,7 +239,18 @@ void CPCRemoteDlg::Activate(UINT nPort, UINT nMaxConnections)
 }
 
 
-
+//读取配置文件
+// 开启监听端口
+void CPCRemoteDlg::ListenPort()
+{
+	int	nPort = ((CPCRemoteApp*)AfxGetApp())->m_IniFile.GetInt("Settings", "ListenPort");         //读取ini 文件中的监听端口
+	int	nMaxConnection = ((CPCRemoteApp*)AfxGetApp())->m_IniFile.GetInt("Settings", "MaxConnection");   //读取最大连接数
+	if (nPort == 0)
+		nPort = 80;
+	if (nMaxConnection == 0)
+		nMaxConnection = 10000;
+	Activate(nPort, nMaxConnection);             //开始监听
+}
 
 
 // CPCRemoteDlg 消息处理程序
@@ -301,7 +315,7 @@ BOOL CPCRemoteDlg::OnInitDialog()
 	Shell_NotifyIcon(NIM_ADD, &nid);   //显示托盘
 
 	
-	Activate(2000,100);
+	ListenPort();
 	//测试用
 	Test();
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -696,7 +710,10 @@ void CPCRemoteDlg::OnMainBuild()
 void CPCRemoteDlg::OnMainSet()
 {
 	// TODO:  在此添加命令处理程序代码
-	MessageBox("参数设置");
+	CSettingDlg SettingDlg;
+	SettingDlg.DoModal();
+
+	//MessageBox("参数设置");
 }
 
 //状态栏数组
@@ -799,3 +816,8 @@ void CPCRemoteDlg::OnNotifyShow()
 	// TODO:  在此添加命令处理程序代码
 	ShowWindow(SW_SHOW);
 }
+
+
+
+
+

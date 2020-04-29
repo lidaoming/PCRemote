@@ -9,7 +9,7 @@
 #endif
 
 #include "resource.h"		// 主符号
-
+#include "IniFile.h"
 
 // CPCRemoteApp: 
 // 有关此类的实现，请参阅 PCRemote.cpp
@@ -24,6 +24,9 @@ public:
 public:
 	virtual BOOL InitInstance();
 
+//配置文件
+public:
+	CIniFile m_IniFile;
 // 实现
 
 	DECLARE_MESSAGE_MAP()
